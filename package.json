@@ -1,0 +1,17 @@
+{
+  "name": "brother-mobile-cable-label-downloader",
+  "description": "Use industrial-grade telecom, datacom and/or electrical identifications on your consumer-grade Brother label printer.",
+  "homepage": "https://github.com/ruimarinho/brother-mobile-cable-label-downloader",
+  "keywords": [
+    "brother",
+    "label",
+    "downloader",
+    "cable"
+  ],
+  "version": "1.0.0",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "repository": "ruimarinho/brother-mobile-cable-label-downloader",
+  "license": "MIT"
+}
