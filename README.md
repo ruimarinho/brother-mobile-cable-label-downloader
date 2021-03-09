@@ -8,7 +8,7 @@ These industrial printers also feature WiFi connectivity which is a baseline req
 
 As an alternative, Brother offers a consumer app called _Brother iPrint&Label_, for ([iOS](https://apps.apple.com/us/app/brother-iprint-label/id523047493) and [Android](https://play.google.com/store/apps/details?id=com.brother.ptouch.iprintandlabel&hl=en&gl=US)) and _Brother P-touch Editor_ for [macOS](https://apps.apple.com/us/app/brother-p-touch-editor/id1453365242?mt=12), both offering a much more limited catalog of labels to use.
 
-Since the label format is compatible between both applications, there should be no reason for not importing the industrial labels into the consumer app. After all, who doesn't have extensive IoT projects at home that need professionally-looking labeling?
+Since the label format is compatible between both applications, there should be no reason for not importing the industrial labels into the consumer app. After all, who doesn't have extensive IoT projects at home that need professionally-looking labelling?
 
 ## Installation
 
@@ -30,10 +30,11 @@ Execute `index.js` and wait for the script to download the labels:
 ❯ node index.js
 ```
 
-This will attempt to download the labels into the application's directory, if it is installed and accessible. Otherwise, it will download them into a local folder `Template/en/Label`, but you will then need to copy them into `/Applications/P-touch Editor.app/Contents/Resources/Template/en/Label` or run:
+This will attempt to download the labels into the application's directory, if it is installed and accessible. Otherwise, it will download them into a local folder (`Template/en/Label`). You will then need to copy them into `/Applications/P-touch\ Editor.app/Contents/Resources/Template/en/Label` by running:
+
 
 ```shell
-❯ cp -r Template/en/Label /Applications/P-touch Editor.app/Contents/Resources/Template/en/Label
+❯ cp -r Template/en/Label /Applications/Brother\ P-touch Editor.app/Contents/Resources/Template/en/Label
 ```
 
 Once you re-open the `Brother P-Touch Editor` app, you will be presented with a vast collection of new labels:
@@ -46,4 +47,4 @@ MIT
 
 ## Footnotes
 
-<sup>[1]</sup>: _As of November 1st, 2020, the compatibles models are PT-E550W, PT-P750W, PT-D800W, PT-E800W, PT-E850TKW, PT-P900W and the PT-P950NW_.
+<sup>[1]</sup> _As of November 1st, 2020, the compatibles models are PT-E550W, PT-P750W, PT-D800W, PT-E800W, PT-E850TKW, PT-P900W and the PT-P950NW_.

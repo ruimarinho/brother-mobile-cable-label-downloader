@@ -46,22 +46,24 @@ const papers = {
  */
 
 (async function() {
-  const darwinAppDir = `/Applications/Brother P-touch Editor.app/Contents/Resources/Template/en/Label/`;
-  let baseDir = `Template/en/Label/`;
+  const darwinAppDir = `/Applications/P-touch Editor.app/Contents/Resources/`;
+  let templateDir = `Template/en/Label/`;
 
   if (os.platform() === 'darwin') {
     try {
-      await fs.promises.access('/Applications/Brother P-touch Editor.app', fs.constants.R_OK | fs.constants.W_OK)
-      baseDir = appDir;
+      await fs.promises.access('/Applications/P-touch Editor.app', fs.constants.R_OK | fs.constants.W_OK)
+      templateDir = `${darwinAppDir}/${templateDir}`;
 
       console.log('Brother P-Touch Editor.app detected, installing labels in-place...')
     } catch (e) {
       console.log(`
-Brother P-Touch Editor.app not installed or not accessible to node process. If installed, you may change ownership permissions and re-run this script:
+⚠️  Brother P-Touch Editor.app not installed or not accessible to node.js process. If installed, you may change ownership permissions and re-run this script:
 
-  sudo chown -R $(whoami):staff '/Applications/P-touch Editor.app'
+      sudo chown -R $(whoami):staff '/Applications/P-touch Editor.app'
 
-Otherwise you will need to manually copy files from ./${baseDir} to ${darwinAppDir}.
+    Otherwise you will need to run:
+
+      cp -r ./${templateDir} '${darwinAppDir}/${templateDir}'
 `)
     }
   }
@@ -80,9 +82,9 @@ Otherwise you will need to manually copy files from ./${baseDir} to ${darwinAppD
       const content = await (await fetch(`https://p-touch.brother.com/es-contents/dlc/v10/bil/contentList?categoryId=${category.categoryId}&langId=${category.langId}`)).json();
 
       // Fetch thumbnail sample.
-      await fs.promises.mkdir(`Template/en/Label/${category.displayName}`, { recursive: true });
+      await fs.promises.mkdir(`${templateDir}${category.displayName}`, { recursive: true });
       const thumbnail = await fetch(category.thumbnailUrl);
-      thumbnail.body.pipe(fs.createWriteStream(`Template/en/Label/${category.displayName}/Sample.bmp`));
+      thumbnail.body.pipe(fs.createWriteStream(`${templateDir}/${category.displayName}/Sample.bmp`));
 
       for (label of content.list) {
         console.log(`Fetching label "${label.displayName}" (${category.displayName}) for paper ${papers[label.paperId]}...`);
@@ -101,7 +103,7 @@ Otherwise you will need to manually copy files from ./${baseDir} to ${darwinAppD
           label.displayName = `${label.displayName}.lbx`;
         }
 
-        const destination = fs.createWriteStream(`${baseDir}${category.displayName}/${label.displayName}`);
+        const destination = fs.createWriteStream(`${templateDir}${category.displayName}/${label.displayName}`);
         const response = await fetch(`https://p-touch.brother.com/es-contents/dlc/v10/bil/content?id=${label.contentId}`);
         response.body.pipe(destination);
       }
