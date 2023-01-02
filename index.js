@@ -7,6 +7,12 @@ const fetch = require('node-fetch');
 const os = require('os');
 
 /**
+ * Default user-agent to circumvent agent blocking measures from Bother.
+ */
+
+const defaultUserAgent = 'User-Agent: os/iOS appName/Pro Label Tool 1.0 printerName/ localId/PTG clientId/ printerId/';
+
+/**
  * Mapping of papers:
  *
  * [id]: <description> // [brother label definition enum].
@@ -63,14 +69,18 @@ const papers = {
 
     Otherwise you will need to run:
 
-      cp -r ./${templateDir} '${darwinAppDir}/${templateDir}'
+      cp -r ./${templateDir} '${darwinAppDir}${templateDir}'
 `)
     }
   }
 
   console.log('Fetching list of categories (this may take a while)...');
 
-  const categories = await (await fetch(`https://p-touch.brother.com/es-contents/dlc/v10/bil/categoryList`)).json();
+  const categories = await (await fetch(`https://p-touch.brother.com/es-contents/dlc/v10/bil/categoryList`, {
+    headers: {
+      'User-Agent': defaultUserAgent
+    }
+  })).json();
 
   for (category of categories.list) {
     if (['ENU', 'ENG'].includes(category.langId)) {
@@ -79,7 +89,11 @@ const papers = {
       // Normalize names like 'CD/DVD Label' to avoid recursive mkdir wrong path.
       category.displayName = category.displayName.replace(/\//g, '-');
 
-      const content = await (await fetch(`https://p-touch.brother.com/es-contents/dlc/v10/bil/contentList?categoryId=${category.categoryId}&langId=${category.langId}`)).json();
+      const content = await (await fetch(`https://p-touch.brother.com/es-contents/dlc/v10/bil/contentList?categoryId=${category.categoryId}&langId=${category.langId}`, {
+        headers: {
+          'User-Agent': defaultUserAgent
+        }
+      })).json();
 
       // Fetch thumbnail sample.
       await fs.promises.mkdir(`${templateDir}${category.displayName}`, { recursive: true });
