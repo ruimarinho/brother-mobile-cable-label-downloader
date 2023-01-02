@@ -16,6 +16,8 @@ const defaultUserAgent = 'User-Agent: os/iOS appName/Pro Label Tool 1.0 printerN
  * Mapping of papers:
  *
  * [id]: <description> // [brother label definition enum].
+ *
+ * @See https://support.brother.co.jp/j/s/support/html/mobilesdk/reference/android/labelinfo.html
  */
 
 const papers = {
@@ -101,7 +103,7 @@ const papers = {
       thumbnail.body.pipe(fs.createWriteStream(`${templateDir}/${category.displayName}/Sample.bmp`));
 
       for (label of content.list) {
-        console.log(`Fetching label "${label.displayName}" (${category.displayName}) for paper ${papers[label.paperId]}...`);
+        console.log(`Fetching label "${label.displayName}" (${category.displayName}) for paper ${papers[label.paperId]} (${label.paperId})...`);
 
         // Normalize label file names to remove unnecessary information.
         if (label.displayName.startsWith(`template_${category.langId}_`)) {
